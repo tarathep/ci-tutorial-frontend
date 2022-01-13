@@ -94,7 +94,7 @@ jobs:
     environment: 
       name: dev
       url: https://github.com/corp-ais/example-pipeline/actions/workflows/dev-node-express-app-deploy.yml
-    needs: [unitest,analyze]
+    needs: [unitest]
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
