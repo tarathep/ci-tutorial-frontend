@@ -85,8 +85,39 @@ npm run build
 npm run test:unit
 ```
 
+jest config coverage report **package.json**
+```json
+{
+  "jest": {
+    "preset": "@vue/cli-plugin-unit-jest",
+    "transform": {
+      "^.+\\.vue$": "vue-jest"
+    },
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/**/*.{js,vue}",
+      "!src/main.js"
+    ]
+  }
+}
+```
 
 
+## Environment Variables
+
+- ``VUE_APP_ENDPOINT_API_BACKEND``
+  - default : http://localhost:8089/api
+  - example : http://192.168.1.102:8089/api
 
 
+## Docker
 
+build image
+```bash
+docker build -t tutorial-fe:0.0.1 .
+```
+
+run container
+```bash
+docker run -it --rm --name tutorial-frontend -p 80:80 -e VUE_APP_ENDPOINT_API_BACKEND=http://192.168.1.102:8089/api tutorial-fe:0.0.1
+```
