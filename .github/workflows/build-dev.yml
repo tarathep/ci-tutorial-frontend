@@ -105,6 +105,13 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Build image
+      id: docker_build
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        tags: ${{ env.CONTAINER_REPOSITORY }}/${{ env.APP_NAME }}:${{env.IMAGE_TAG}}
+    
     - name: "ACR login"
       uses: azure/docker-login@v1
       with:
@@ -112,21 +119,6 @@ jobs:
         username: ${{ secrets.ACR_USERNAME }}
         password: ${{ secrets.ACR_PASSWORD }}
 
-    - name: Setup node
-      uses: actions/setup-node@v2
-      with:
-        node-version: '14'
-
-    - name: Install dependencies
-      run: npm install
-
-    - name: Build image
-      id: docker_build
-      uses: docker/build-push-action@v2
-      with:
-        context: .
-        tags: ${{ env.CONTAINER_REPOSITORY }}/${{ env.APP_NAME }}:${{env.IMAGE_TAG}}
-        
     - name: Push image
       run: docker image push ${{ env.CONTAINER_REPOSITORY }}/${{ env.APP_NAME }}:${{env.IMAGE_TAG}}
 
