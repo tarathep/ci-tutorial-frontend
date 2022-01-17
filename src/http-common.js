@@ -1,10 +1,9 @@
 import axios from "axios"
 
-
+const backend = process.env.VUE_APP_ENDPOINT_API_BACKEND;
 
 export default axios.create({
-    // http://localhost:8089/api
-    baseURL: process.env.VUE_APP_ENDPOINT_API_BACKEND,
+    baseURL: backend,
     headers: {
         "Content-type": "application/json",
     }
