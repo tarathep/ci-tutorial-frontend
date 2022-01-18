@@ -1,25 +1,21 @@
-name: DEV - Build
+name: SIT - Build
 
 on:
   workflow_dispatch:
-
   push:
-    branches:
-      - dev
-  pull_request:
-    branches:
-      - dev
+    tags:
+      - '*'
 
 env:
   APP_NAME: tutorial-frontend
   CONTAINER_REPOSITORY: "acrtutorialazasse001.azurecr.io"
-  IMAGE_TAG: "0.0.1-SNAPSHOT"
+  
 
 jobs:
   unitest:
     name: UnitTest
     runs-on: ubuntu-latest
-    environment: dev
+    environment: sit
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
@@ -94,8 +90,8 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     environment: 
-      name: dev
-      url: https://github.com/tarathep/tutorial-pipeline/actions/workflows/dev-tutorial-backend-deploy.yml
+      name: sit
+      url: https://github.com/tarathep/tutorial-pipeline/actions/workflows/sit-tutorial-backend-deploy.yml
     needs: [unitest,analyze]
     steps:
     - name: Checkout code
@@ -123,5 +119,5 @@ jobs:
       with:
         token: ${{ secrets.REPO_ACCESS_TOKEN }}
         repository: tarathep/tutorial-pipeline
-        event-type: tutorial-frontend-cd-dev
+        event-type: tutorial-frontend-cd-sit
         client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
